@@ -1,0 +1,87 @@
+INFORMAL REQUIREMENTS BRAINSTORMING
+
+
+- first version must manage scripts with strict oracle sql statements (no PL/SQL) separated by ";"
+- all configuration in a single config.yaml file
+- no need of a REVOLUTIONER_HOME: revolutioner will use by default
+  the config.yaml file in the same dir; it will be possible to 
+  specify a different config.yaml file
+
+example of config.yaml content (not yet in yaml format!):
+  BP
+    #directory containing migration scripts etc., equivalent to the db_oracle folder used by DMT
+    revolutionerFolder: /home/lexington/../revolutionerOracle
+    #users info section
+    users:
+      oracle connection details (for all users): .....
+      mode: sys/nosys
+      user1:
+        oracleusername
+        oraclepassword
+      system:
+        actualUsername
+        actualpassword
+  NGP
+    ...
+
+Example of revolutionerFolder:
+revolutioner/
+  { revolutioner.yaml or revolutioner.properties:
+    -> the product name
+    -> the requied version of the database
+    -> the alias of the user to be used for revolutioner metadata
+  }
+  migrations/
+    0_initialSetup/
+        01_system.sql    --> script to create users and tablespaces = version 0
+    0_to_version_1/     -- 0 to database version_1
+        01_user1.sql     
+        02_user1.sql
+        03_user1.sql 
+    version_1_to_version_2/
+        01_system.sql
+        02_user1.sql
+  
+  complianceTests/
+    version_1/
+      default.ctf
+      01.py
+      02.py
+    version_2/
+      default.ctf
+      01.py
+      02.py
+   
+Exaple of usage (specify exactly sysmode and normal mode):
+
+revolutioner initialize BP: 
+sys mode: executes 0_initialSetup and creates the revolutioner tables and sequences
+normal mode: assumes existing user and only initialises revolutioner database objects
+
+revolutioner migrate: finds path and executes migration
+sys mode: all scripts
+normal mode: does not execute sys scripts
+
+revolutioner.py drop BP:
+  sys mode:  drops all users referenced in configuration and existing
+  normal mode: connects to each users and drop all objects
+
+revolutioner.py create BP 
+                          drop + initialize + migrate to desired version
+
+revolutioner.py check BP: executes compliance tests for the existing database and 
+
+TESTING
+Integration tests wit database access (easily accessible configuration, in a single location; no hardcoded reference!)
+Unit tests with no database access
+
+LOGGING
+using standard python logging mechanisms
+                            
+STARTING POINTS FOR CODING
+
+classes to read the revolutionerFolder, validate it, validate script names
+path finder: given source and target version, find a path with the existing migrations, detect loops
+classes to read main config.yaml file
+classes to execute sql statements using cx_oracle
+
