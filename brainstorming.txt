@@ -10,14 +10,17 @@ INFORMAL REQUIREMENTS BRAINSTORMING
 example of config.yaml content (not yet in yaml format!):
   BP
     #directory containing migration scripts etc., equivalent to the db_oracle folder used by DMT
-    revolutionerFolder: /home/lexington/../revolutionerOracle
+    revolutionerFolder: /home/lexington/steele/../revolutionerOracle
     #users info section
+    mode: sys/nosys; if sys specified, sys credentials are mandatory
     users:
       oracle connection details (for all users): .....
-      mode: sys/nosys
       user1:
         oracleusername
         oraclepassword
+      user2: 
+        --
+        --
       system:
         actualUsername
         actualpassword
@@ -25,10 +28,11 @@ example of config.yaml content (not yet in yaml format!):
     ...
 
 Example of revolutionerFolder:
+
 revolutioner/
   { revolutioner.yaml or revolutioner.properties:
     -> the product name
-    -> the requied version of the database
+    -> the required version of the database
     -> the alias of the user to be used for revolutioner metadata
   }
   migrations/
@@ -37,28 +41,29 @@ revolutioner/
     0_to_version_1/     -- 0 to database version_1
         01_user1.sql     
         02_user1.sql
-        03_user1.sql 
+        03_user2.sql 
     version_1_to_version_2/
         01_system.sql
         02_user1.sql
   
   complianceTests/
     version_1/
-      default.ctf
-      01.py
+      user1.ctf
+      user2.
+      01.py (python test dinamically loaded, a standard interface must be defined)
       02.py
     version_2/
       default.ctf
       01.py
       02.py
    
-Exaple of usage (specify exactly sysmode and normal mode):
+Example of usage:
 
-revolutioner initialize BP: 
+revolutioner.py initialize BP: 
 sys mode: executes 0_initialSetup and creates the revolutioner tables and sequences
 normal mode: assumes existing user and only initialises revolutioner database objects
 
-revolutioner migrate: finds path and executes migration
+revolutioner.py migrate: finds path and executes migration
 sys mode: all scripts
 normal mode: does not execute sys scripts
 
@@ -73,6 +78,15 @@ revolutioner.py check BP: executes compliance tests for the existing database an
 
 TESTING
 Integration tests wit database access (easily accessible configuration, in a single location; no hardcoded reference!)
+
+IT
+  allIntegrationTests.py (calls all of them)
+  TEST1/
+    test.py
+    ...
+  TEST2/
+  TEST3
+
 Unit tests with no database access
 
 LOGGING
