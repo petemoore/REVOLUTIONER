@@ -1,6 +1,5 @@
 INFORMAL REQUIREMENTS BRAINSTORMING
 
-
 - first version must manage scripts with strict oracle sql statements (no PL/SQL) separated by ";"
 - all configuration in a single config.yaml file
 - no need of a REVOLUTIONER_HOME: revolutioner will use by default
@@ -99,3 +98,66 @@ path finder: given source and target version, find a path with the existing migr
 classes to read main config.yaml file
 classes to execute sql statements using cx_oracle
 
+MANAGEMENT OF PARAMETERS
+=====================================================
+Revolutioner Command Line Tool will receive parameters starting with the '-' character;
+
+Each parameter is defined by two numbers:
+   - the number of mandatory arguments it receives (which are always at the beginning of the arguments list) 
+   - the number of optional parameters (*) which can follow the initial mandatory parameters
+    
+EXAMPLES
+   p1(1,3): requires at least an argument, and after that up to three optional arguments can be provided
+         EXAMPLES: 
+           VALID: revolutioner.py -p1 'mandatory' 
+           VALID: revolutioner.py -p1 'mandatory' 'optional1'
+           VALID: revolutioner.py -p1 'mandatory' 'optional1' 'optional2'
+           VALID: revolutioner.py -p1 'mandatory' 'optional1' 'optional2' 'optional3'
+           INVALID (missing mandatory argument): revolutioner.py -p1 
+           INVALID (too many arguments): revolutioner.py -p1 a b c d e
+   p2(0,1): can be provided 0 arguments or 1 optional one
+   p3(1,*): 1 mandatory argument, any optional parameters
+   p4(0,0): NO arguments (this kind of parameter is called FLAG) 
+   
+
+
+
+THE FIRST PARAMETER
+the first parameter provided to the tool is called the "action" parameter, which defines the
+operation revolutioner is asked to perform;
+The "action" parameter is exceptional by virtue of the following two rules which apply to it only:
+  1) it MUST be the first one provided in the command line
+  2) it CAN be specified without the starting '-' character
+
+If no action parameter is provided, revolutioner will behave as if the "help" action parameter had been provided
+
+examples:
+
+$revolutioner.py drop BP 
+                 ^
+             action parameter
+   
+$revolutioner.py create BP -p1 a1 a2
+                  ^
+             action parameter  
+$revolutioner.py migrate BP version_4
+                   ^
+             action parameter   
+
+$revolutioner.py help migrate
+
+command line parameters/arguments validation:
+For each action parameter, some dependency/compatibility/incompatibility rules can be defined for
+parameters:
+
+SUPPORTED PARAMETERS (COMPATIBILITIES):
+action1: p1, p2, p3
+action2: p5, p6
+DEPENDENCIES:
+(p1) -> (p2) if p1 is in the command line, p2 is required; if p1 is     there 
+			 but p2 is not, the command line is not valid			(p1,p2)-> (p3)   if p1 and p2 are in the command line, p3 is required as well;
+(p5)->(p6 and p7)if p5 is there, p6 AND p7 are also required
+(p5)->(p6 or p7) if p5 is there, at least one between p6  p7 are also required
+INCOMPATIBILITIES (MUTUAL EXCLUSION):
+(p1):(p2)    if p1 is there, p2 cannot be there
+(p1,p2):(p3) if p1 and p2 are there, p3 cannot be there
