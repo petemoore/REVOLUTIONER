@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import unittest
 
 # the following three lines's purpose is to make the code in the sister 'src' folder available to the tests
