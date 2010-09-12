@@ -1,11 +1,5 @@
 #!/usr/bin/env python
 
-class CommandLineManager:
-    def getExecutor(self,command_line_args):
-        for cls in Executor.__subclasses__():
-            if cls.is_executor_for(command_line_args):
-                return cls(command_line_args)
-        return None
     
 def getParametersMap(command_line_args):
       parametersMap={}
@@ -23,31 +17,39 @@ def getParametersMap(command_line_args):
         else:
             parametersMap[previousParameter].append(item)
       return action, parametersMap
+
+class CommandLineManager:
+    def getExecutor(self,command_line_args):        
+        action,map=getParametersMap(command_line_args)
+        
+        for cls in Executor.__subclasses__():
+            if cls.is_executor_for(action):
+                return cls(action, map)
+        return None
+
     
-class Executor(object):  
+class Executor(object):    
+    def __init__(self, action, parametersMap):
+        self.action, self.parametersMap=action, parametersMap
     
-    def __init__(self, command_line_args):
-        self.action, self.parametersMap=self.getParametersMap(command_line_args)
+class DropExecutor(Executor):  
     
-class DropExecutor(Executor):
-  def __init__(self, command_line_args):
-    
-    self.supportedParameters=set(['drop','-drop'])
-    self.action, self.parametersMap=getParametersMap(command_line_args)
+  def __init__(self, action, parametersMap):
+    super(DropExecutor, self).__init__(action,parametersMap)
+    self.supportedParameters=set(['drop','-drop']) 
                    
   @classmethod
-  def is_executor_for(self, command_line_args):
-    if len(command_line_args)==0:
+  def is_executor_for(self, action):
+    if action is None :
         return False
-    else:
-        command=command_line_args[0]
-        if command=='drop' or command=='-drop':
+    else:        
+        if action in ('drop','-drop'):
             return True    
         
   def cl_formally_valid(self):
     parameters=self.parametersMap.keys()
     for parameter in parameters:
-        if parameter not in self.supportedParameters:
+        if parameter is not self.action and parameter not in self.supportedParameters:
             return False
     return True   
     
