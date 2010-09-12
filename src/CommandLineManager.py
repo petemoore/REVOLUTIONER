@@ -22,18 +22,19 @@ def getParametersMap(command_line_args):
             previousParameter=item
         else:
             parametersMap[previousParameter].append(item)
-      return parametersMap
+      return action, parametersMap
     
 class Executor(object):  
     
     def __init__(self, command_line_args):
-        self.parametersMap=self.getParametersMap(command_line_args)
+        self.action, self.parametersMap=self.getParametersMap(command_line_args)
     
 class DropExecutor(Executor):
   def __init__(self, command_line_args):
-    self.supportedParameters=set(['drop','-drop'])
-    self.parametersMap=getParametersMap(command_line_args)
     
+    self.supportedParameters=set(['drop','-drop'])
+    self.action, self.parametersMap=getParametersMap(command_line_args)
+                   
   @classmethod
   def is_executor_for(self, command_line_args):
     if len(command_line_args)==0:
