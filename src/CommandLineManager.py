@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
     
 def getParametersMap(command_line_args):
       parametersMap={}
@@ -23,7 +22,7 @@ class CommandLineManager:
         action,map=getParametersMap(command_line_args)
         
         for cls in Executor.__subclasses__():
-            if cls.is_executor_for(action):
+            if action in cls._myActions:
                 return cls(action, map)
         return None
 
@@ -34,20 +33,12 @@ class Executor(object):
     
 class DropExecutor(Executor):
   _myActions=('drop','-drop')
-  
-  @classmethod
-  def is_executor_for(self, action):
-    if action is None :
-        return False
-    else:        
-        if action in DropExecutor._myActions:
-            return True 
     
   def __init__(self, action, parametersMap):
     assert action in DropExecutor._myActions, "I don't support %s action!" % action
-    super(DropExecutor, self).__init__(action,parametersMap)                  
+    super(DropExecutor, self).__init__(action,parametersMap)       
    
-        
+  #TODO this implementation is quite useless..      
   def cl_formally_valid(self):
     actualParameters=self.parametersMap.keys()
     supportedParameters=set(DropExecutor._myActions)
