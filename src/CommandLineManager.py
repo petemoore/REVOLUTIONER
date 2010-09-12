@@ -32,24 +32,27 @@ class Executor(object):
     def __init__(self, action, parametersMap):
         self.action, self.parametersMap=action, parametersMap
     
-class DropExecutor(Executor):  
-    
-  def __init__(self, action, parametersMap):
-    super(DropExecutor, self).__init__(action,parametersMap)
-    self.supportedParameters=set(['drop','-drop']) 
-                   
+class DropExecutor(Executor):
+  _myActions=('drop','-drop')
+  
   @classmethod
   def is_executor_for(self, action):
     if action is None :
         return False
     else:        
-        if action in ('drop','-drop'):
-            return True    
+        if action in DropExecutor._myActions:
+            return True 
+    
+  def __init__(self, action, parametersMap):
+    assert action in DropExecutor._myActions, "I don't support %s action!" % action
+    super(DropExecutor, self).__init__(action,parametersMap)                  
+   
         
   def cl_formally_valid(self):
-    parameters=self.parametersMap.keys()
-    for parameter in parameters:
-        if parameter is not self.action and parameter not in self.supportedParameters:
+    actualParameters=self.parametersMap.keys()
+    supportedParameters=set(DropExecutor._myActions)
+    for parameter in actualParameters:
+        if parameter not in supportedParameters:
             return False
     return True   
     
