@@ -9,7 +9,7 @@ INFORMAL REQUIREMENTS BRAINSTORMING
 example of config.yaml content (not yet in yaml format!):
   BP
     #directory containing migration scripts etc., equivalent to the db_oracle folder used by DMT
-    revolutionerFolder: /home/lexington/steele/../revolutionerOracle
+    evolution_dir: /home/lexington/steele/../revolutionerOracle
     #users info section
     mode: sys/nosys; if sys specified, sys credentials are mandatory
     users:
@@ -23,10 +23,11 @@ example of config.yaml content (not yet in yaml format!):
       system:
         actualUsername
         actualpassword
+        tablespacesDir
   NGP
     ...
 
-Example of revolutionerFolder:
+Example of evolution_dir:
 
 revolutioner/
   { revolutioner.yaml or revolutioner.properties:

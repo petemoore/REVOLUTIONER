@@ -26,7 +26,6 @@ class CommandLineManager:
             if action in cls._myActions:
                 return cls(action, map)
         return None
-
     
 class Executor(object):    
     def __init__(self, action, parametersMap):
@@ -46,7 +45,7 @@ class DropExecutor(Executor):
     for parameter in actualParameters:
         if parameter not in supportedParameters:
             return False
-    return True   
+    return True
     
         
         
