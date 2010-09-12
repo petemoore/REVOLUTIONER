@@ -2,7 +2,8 @@
     
 def getParametersMap(command_line_args):
       parametersMap={}
-    
+      if len(command_line_args)==0:
+        return None, parametersMap
       action=command_line_args[0]
     
       parametersMap[action]=[]
