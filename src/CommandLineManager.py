@@ -32,13 +32,14 @@ class Executor(object):
         self.action, self.parametersMap=action, parametersMap
     
 class DropExecutor(Executor):
+    #you just have to define _myActions for each executor to let the command line manager know which is the right executor
   _myActions=('drop','-drop')
     
   def __init__(self, action, parametersMap):
     assert action in DropExecutor._myActions, "I don't support %s action!" % action
     super(DropExecutor, self).__init__(action,parametersMap)       
    
-  #TODO this implementation is quite useless..      
+  #TODO this implementation is still useless..      
   def cl_formally_valid(self):
     actualParameters=self.parametersMap.keys()
     supportedParameters=set(DropExecutor._myActions)
