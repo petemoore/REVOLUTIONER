@@ -1,1 +1,58 @@
 REVOLUTIONER - Relational Evolution Manager
+===========================================
+
+Revolutioner is a tool for managing the evolution of database schemas as a
+software project evolves.
+
+The principle goals of Revolutioner are:
+
+    * Software that uses Revolutioner to manage its database schemas should
+      contain migration scripts that Revolutioner runs
+    * Revolutioner can support software projects that have multiple
+      database schemas, and potentially running on different database
+      middleware (Oracle, MySQL, SQL Server, SQLite, PostgreSQL, DB2, ...)
+    * Revolutioner will have plugins for integrating with standard build
+      tools such as Apache Ant, Apache Maven, Gradle
+    * Software projects that use Revolutioner can build the databases at
+      build/test/release time as required using these plugins
+    * Revolutioner requires only schema migration scripts, and not separate
+      creation scripts; database creations are a "migration from zero"
+    * Revolutioner will work as a stand alone java app that can be used by
+      operational teams to automatically migrate live schemas using the
+      same migration scripts that developers used at build time
+    * Revolutioner defines a migration as being the set of scripts to be
+      run to get a set of database schemas from one frozen point to another
+    * Revolutioner considers all database versions to be frozen "points"
+      independent of the source control branches or releases they appear in
+    * When performing migrations, Revolutioner stamps the frozen database
+      version of the migrated schemas in the database directly
+    * Each software project that uses Revolutioner delivers the full set of
+      migration directories between individual points as a series of
+      directories, and additionally provides details of which version of
+      the schemas that the software depends on
+    * Since a software release of a product that uses Revolutioner must
+      state which frozen database version it uses, and each live schema is
+      stamped with its current version, Revolutioner can work out the start
+      and end points for the migration it needs to perform
+    * Revolutioner uses a "path-finder" algorithm to establish which
+      migrations to run out of the full set of possible "point-to-point"
+      migrations that are delivered with a release
+    * Since frozen database points can be defined independently of the
+      branching and release naming strategy of a product, the developers
+      have complete freedom about which point-to-point migrations to
+      provide, according to the needs of the users
+    * Revolutioner never needs to "undo" or "roll back" a migration since
+      migrations can be provided between any two frozen points, and an
+      appropriate migration can be provided to perform the required steps
+      explicitly between any two points
+    * Revolutioner stores a database "blueprint" for every frozen point
+      which describes the complete schema structure (DDL) and these
+      blueprints must be delivered with the product that Revolutioner
+      shoud manage
+    * These blueprints are created automatically by the Revolutioner build
+      plugins so are transparant to the development team
+    * Revolutioner validates all live schemas prior to each migration step
+      to validate that the schema has a valid structure before attempting
+      to migrate it, and subsequently after each migration step, to check
+      that the migrated schemas are compliant with the frozen blueprint
+      that was generated at build time
