@@ -19,5 +19,5 @@ public class CommandLineOptions {
 
     // receives other command line parameters than options
     @Argument
-    private List arguments = new ArrayList();
+    private List <String> arguments = new ArrayList <String>();
 }
