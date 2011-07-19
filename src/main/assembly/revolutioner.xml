@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<assembly>
+  <id>bundle</id>
+  <formats>
+    <format>tar.gz</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <files>
+    <file>
+      <source>${project.build.directory}/revolutioner-jar-with-dependencies.jar</source>
+      <destName>revolutioner.jar</destName>
+    </file>
+  </files>
+  <fileSets>
+    <fileSet>
+      <directory>${project.basedir}/docs</directory>
+    </fileSet>
+  </fileSets>
+</assembly>
