@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class CommandLineOptions {
     
-    @Option(name="-m", usage="migrate schemas")
+    @Option(name="--migrate")
     private boolean migrate;
 
-    @Option(name="-r", usage="recreate schemas")
+    @Option(name="--recreate")
     private boolean recreate;
 
-    @Option(name="-d", usage="drop schemas")
+    @Option(name="--drop")
     private boolean drop;
 
     // receives other command line parameters than options
