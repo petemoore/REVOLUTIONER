@@ -25,20 +25,20 @@ public class Revolutioner {
 	}
 
     public static void main( String[] args ) {
-    	if (args.length > 1) {
+    	if (args.length >= 1) {
 	    	String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
-	    	String command = args[0];
-	    	Command bean = commandBeanMap.get(command);
-	        try {
-	            CmdLineParser parser = new CmdLineParser(bean);
-	            parser.parseArgument(remainingArgs);
-	        	bean.run();
-	        } catch (CmdLineException e) {
-	            System.out.println("Whoops!");
-	            e.printStackTrace();
-	        }
-    	} else {
-    		System.out.println("Command usage explanation ...");
-    	}
+            String command = args[0];
+            Command bean = commandBeanMap.get(command);
+            try {
+                CmdLineParser parser = new CmdLineParser(bean);
+                parser.parseArgument(remainingArgs);
+                bean.run();
+            } catch (CmdLineException e) {
+                System.out.println("Whoops!");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Command usage explanation ...");
+        }
     }
 }
