@@ -1,4 +1,4 @@
-package revolutioner.commands;
+package revolutioner;
 
 public interface Command {
     public void run();

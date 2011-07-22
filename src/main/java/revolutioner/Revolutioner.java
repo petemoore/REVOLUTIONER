@@ -19,16 +19,20 @@ public class Revolutioner {
 	 */
 	private static HashMap<String, Command> commandBeanMap = new HashMap<String, Command> ();
 	static {
-		commandBeanMap.put("migrate", new MigrateCommand());
-		commandBeanMap.put("drop", new DropCommand());
-		commandBeanMap.put("recreate", new RecreateCommand());
+		commandBeanMap.put("migrate", new Migrate());
+		commandBeanMap.put("drop", new Drop());
+		commandBeanMap.put("recreate", new Recreate());
 	}
 
-    public static void main( String[] args ) {
-    	if (args.length >= 1) {
+    public static void main(String[] args) {
+    	String firstArg;
+    	if (args.length >= 1 && (firstArg = args[0]) != null) {
 	    	String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
-            String command = args[0];
-            Command bean = commandBeanMap.get(command);
+            Command bean = commandBeanMap.get(firstArg);
+            if (bean == null) {
+            	
+            }
+            
             try {
                 CmdLineParser parser = new CmdLineParser(bean);
                 parser.parseArgument(remainingArgs);

@@ -3,11 +3,13 @@ package revolutioner.commands;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import revolutioner.Command;
+
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
-public class MigrateCommand implements Command {
+public class Recreate implements Command {
     
     @Option(name="--test-data")
     private File optionalTestData;
@@ -16,7 +18,7 @@ public class MigrateCommand implements Command {
     private String optionalDbVersion;
 
     @Option(name="--no-checks")
-    private boolean noChecks;
+    private boolean drop;
     
     @Option(name="--skeleton")
     private boolean skeleton;
@@ -25,10 +27,7 @@ public class MigrateCommand implements Command {
     private List <String> arguments = new ArrayList <String>();
 
 	public void run() {
-		System.out.println("Running a migration!");
-		System.out.println("Optional Test data file: " + optionalTestData.getPath());
-		System.out.println("Optional Database version: " + optionalDbVersion);
-		System.out.println("No checks: " + noChecks);
-		System.out.println("Skeleton: " + skeleton);
+		// TODO Auto-generated method stub
+		
 	}
 }
