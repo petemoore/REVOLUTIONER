@@ -1,0 +1,12 @@
+Examples of usage:
+java -jar revolutioner.jar check [--output FILE] PRODUCT
+java -jar revolutioner.jar describe-user --username USERNAME --password PASSWORD --jdbcurl JDBCURL
+java -jar revolutioner.jar drop PRODUCT
+java -jar revolutioner.jar export --username USERNAME --password PASSWORD --jdbcurl JDBCURL
+java -jar revolutioner.jar generate-ctfs PRODUCT
+java -jar revolutioner.jar get-actual [--output FILE] PRODUCT
+java -jar revolutioner.jar get-expected [--output FILE] PRODUCT
+java -jar revolutioner.jar migrate [--db-version DB_VERSION] [--no-checks] [--test-data TEST_DATA] PRODUCT
+java -jar revolutioner.jar recreate [--db-version DB_VERSION] [--no-checks] [--test-data TEST_DATA] [--skeleton] PRODUCT
+java -jar revolutioner.jar release-report PRODUCT
+java -jar revolutioner.jar show-migrations-dir DIRECTORY
